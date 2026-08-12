@@ -87,6 +87,7 @@ public class MainActivity extends Activity {
 
     void analyze(Bitmap bm){
         latestBitmap=bm; lastW=bm.getWidth(); lastH=bm.getHeight();
+main.post(() -> image.setImageBitmap(bm));
         InputImage input=InputImage.fromBitmap(bm,0);
         detector.process(input).addOnSuccessListener(commandExecutor, objects->{
             if(objects.isEmpty()){
