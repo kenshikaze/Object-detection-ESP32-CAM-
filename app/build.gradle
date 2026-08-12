@@ -1,0 +1,23 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.aerospace.tracker'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.aerospace.tracker'
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName '0.1'
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.13.0'
+    // Bundled ML Kit object detection + tracking. Runtime inference is on-device.
+    implementation 'com.google.mlkit:object-detection:17.0.2'
+}

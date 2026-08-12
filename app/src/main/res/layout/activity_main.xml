@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="12dp">
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Aero Tracker — offline detector ready"
+        android:textStyle="bold" android:padding="6dp"/>
+
+    <EditText
+        android:id="@+id/streamUrl"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="MJPEG stream URL"
+        android:inputType="textUri"
+        android:text="http://192.168.4.1:81/stream"/>
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/startBtn" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="START"/>
+        <Button android:id="@+id/stopBtn" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="STOP"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:background="#111111">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:scaleType="fitCenter"/>
+
+        <View
+            android:id="@+id/overlay"
+            android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/telemetry"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="No detection yet" android:padding="6dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/leftBtn" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="LEFT"/>
+        <Button android:id="@+id/centerBtn" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="CENTER"/>
+        <Button android:id="@+id/rightBtn" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="RIGHT"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/upBtn" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="UP"/>
+        <Button android:id="@+id/downBtn" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="DOWN"/>
+    </LinearLayout>
+</LinearLayout>
