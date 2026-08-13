@@ -14,7 +14,7 @@
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:hint="MJPEG stream URL"
         android:inputType="textUri"
-        android:text="http://192.168.4.1:81/stream"/>
+        android:text="http://192.168.4.1/capture"/>
 
     <LinearLayout
         android:layout_width="match_parent" android:layout_height="wrap_content"

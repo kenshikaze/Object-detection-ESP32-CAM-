@@ -49,40 +49,68 @@ public class MainActivity extends Activity {
     }
 
     void start(){
-        if(running) return; running=true; status.setText("Connecting to ESP32 stream...");
-        String url=streamUrl.getText().toString().trim();
-        streamExecutor.execute(()->readMjpeg(url));
-    }
-    void stop(){ running=false; status.setText("Stopped"); }
+        if (running) return;
+        running = true;
+        status.setText("Connecting to ESP32 camera...");
 
-    void readMjpeg(String url){
+        String url = streamUrl.getText().toString().trim();
+
+        streamExecutor.execute(() -> readCapture(url));
+    }
+
+    void stop(){
+        running = false;
+        status.setText("Stopped");
+    }
+
+    void readCapture(String url){
         while(running){
-            HttpURLConnection c=null;
+            HttpURLConnection c = null;
+
             try{
-                URL u=new URL(url); c=(HttpURLConnection)u.openConnection();
-                c.setConnectTimeout(4000); c.setReadTimeout(8000); c.connect();
-                InputStream in=new BufferedInputStream(c.getInputStream(), 64*1024);
-                ByteArrayOutputStream jpeg=new ByteArrayOutputStream(128*1024);
-                boolean inJpeg=false; int prev=-1, x;
-                while(running && (x=in.read())!=-1){
-                    if(!inJpeg){
-                        if(prev==0xFF && x==0xD8){ jpeg.reset(); jpeg.write(0xFF); jpeg.write(0xD8); inJpeg=true; }
-                    } else {
-                        jpeg.write(x);
-                        if(prev==0xFF && x==0xD9){
-                            byte[] data=jpeg.toByteArray();
-                            Bitmap bm=BitmapFactory.decodeByteArray(data,0,data.length);
-                            if(bm!=null) analyze(bm);
-                            inJpeg=false;
-                        }
+                URL u = new URL(url);
+                c = (HttpURLConnection) u.openConnection();
+                c.setConnectTimeout(4000);
+                c.setReadTimeout(5000);
+                c.setUseCaches(false);
+                c.connect();
+
+                try(InputStream in = new BufferedInputStream(c.getInputStream(), 64 * 1024)){
+                    byte[] data = readAll(in);
+                    Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+                    if(bm != null){
+                        analyze(bm);
                     }
-                    prev=x;
                 }
-            }catch(Exception e){
-                main.post(()->status.setText("Stream error: "+e.getClass().getSimpleName()));
-                try{Thread.sleep(500);}catch(Exception ignored){}
-            }finally{ if(c!=null)c.disconnect(); }
+
+                // Keep the capture rate modest because the ESP32-CAM is relatively slow.
+                Thread.sleep(350);
+
+            } catch(Exception e){
+                main.post(() ->
+                    status.setText("Capture error: " + e.getClass().getSimpleName())
+                );
+
+                try{
+                    Thread.sleep(700);
+                }catch(Exception ignored){}
+            } finally {
+                if(c != null) c.disconnect();
+            }
         }
+    }
+
+    byte[] readAll(InputStream in) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream(128 * 1024);
+        byte[] buffer = new byte[8192];
+        int n;
+
+        while((n = in.read(buffer)) != -1){
+            out.write(buffer, 0, n);
+        }
+
+        return out.toByteArray();
     }
 
     void analyze(Bitmap bm){
@@ -98,8 +126,8 @@ main.post(() -> image.setImageBitmap(bm));
             Rect r=target.getBoundingBox();
             float cx=(r.left+r.right)/2f, cy=(r.top+r.bottom)/2f;
             float nx=cx/lastW, ny=cy/lastH;
-            String pan=nx<0.40?"LEFT":(nx>0.60?"RIGHT":"CENTER");
-            String tilt=ny<0.40?"UP":(ny>0.60?"DOWN":"CENTER");
+            String pan=nx<0.40?"RIGHT":(nx>0.60?"LEFT":"CENTER");
+            String tilt=ny<0.40?"DOWN":(ny>0.60?"UP":"CENTER");
             Integer id=target.getTrackingId();
             String msg="Object"+(id==null?"":" #"+id)+"  x="+Math.round(nx*100)+"% y="+Math.round(ny*100)+"%  PAN="+pan+" TILT="+tilt;
             main.post(()->telemetry.setText(msg));
