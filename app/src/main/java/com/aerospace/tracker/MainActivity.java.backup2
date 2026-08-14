@@ -29,11 +29,7 @@ public class MainActivity extends Activity {
     // TEMPORARY: these are deliberately placeholders until tomorrow's button URLs
     // are discovered. Change only the endpoint strings once known.
     final String BASE="http://192.168.4.1";
-    final String LEFT="/pan?angle=30";
-    final String RIGHT="/pan?angle=150";
-    final String CENTER="/home";
-    final String UP="/tilt?angle=45";
-    final String DOWN="/tilt?angle=135";
+    final String LEFT="/left", RIGHT="/right", CENTER="/center", UP="/up", DOWN="/down";
 
     @Override public void onCreate(Bundle b){
         super.onCreate(b); setContentView(R.layout.activity_main);
@@ -52,7 +48,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.downBtn).setOnClickListener(v->send(DOWN));
     }
 
-
+    void start(){
         if (running) return;
         running = true;
         status.setText("Connecting to ESP32 camera...");
