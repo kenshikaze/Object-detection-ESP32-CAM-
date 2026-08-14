@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
     // are discovered. Change only the endpoint strings once known.
     final String BASE="http://192.168.4.1";
     final String LEFT="/pan?angle=150";
-    final String RIGHT="/pan?angle=30";
+    String String RIGHT="/pan?angle=30";
     final String CENTER="/home";
     final String UP="/tilt?angle=135";
     final String DOWN="/tilt?angle=45";
@@ -130,8 +130,8 @@ main.post(() -> image.setImageBitmap(bm));
             Rect r=target.getBoundingBox();
             float cx=(r.left+r.right)/2f, cy=(r.top+r.bottom)/2f;
             float nx=cx/lastW, ny=cy/lastH;
-            String pan=nx<0.40?"RIGHT":(nx>0.60?"LEFT":"CENTER");
-            String tilt=ny<0.40?"DOWN":(ny>0.60?"UP":"CENTER");
+            String pan=nx<0.40?"LEFT":(nx>0.60?"RIGHT":"CENTER");
+            String tilt=ny<0.40?"UP":(ny>0.60?"DOWN":"CENTER");
             Integer id=target.getTrackingId();
             String msg="Object"+(id==null?"":" #"+id)+"  x="+Math.round(nx*100)+"% y="+Math.round(ny*100)+"%  PAN="+pan+" TILT="+tilt;
             main.post(()->telemetry.setText(msg));
