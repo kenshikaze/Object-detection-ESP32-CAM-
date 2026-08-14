@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.downBtn).setOnClickListener(v->send(DOWN));
     }
 
-
+void start(){
         if (running) return;
         running = true;
         status.setText("Connecting to ESP32 camera...");
