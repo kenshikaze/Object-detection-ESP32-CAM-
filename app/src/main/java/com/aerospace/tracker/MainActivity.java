@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
         image=findViewById(R.id.image); status=findViewById(R.id.status);
         telemetry=findViewById(R.id.telemetry); streamUrl=findViewById(R.id.streamUrl);
         ObjectDetectorOptions options=new ObjectDetectorOptions.Builder()
-                .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
+                .setDetectorMode(ObjectDetectorOptions.SINGLE_IMAGE_MODE)
                         .enableMultipleObjects()
                                 .enableClassification()
                                         .build();
