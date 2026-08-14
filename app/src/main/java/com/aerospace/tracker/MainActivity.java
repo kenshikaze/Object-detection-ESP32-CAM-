@@ -29,11 +29,11 @@ public class MainActivity extends Activity {
     // TEMPORARY: these are deliberately placeholders until tomorrow's button URLs
     // are discovered. Change only the endpoint strings once known.
     final String BASE="http://192.168.4.1";
-    final String LEFT="/pan?angle=30";
-    final String RIGHT="/pan?angle=150";
+    final String LEFT="/pan?angle=150";
+    final String RIGHT="/pan?angle=30";
     final String CENTER="/home";
-    final String UP="/tilt?angle=45";
-    final String DOWN="/tilt?angle=135";
+    final String UP="/tilt?angle=135";
+    final String DOWN="/tilt?angle=45";
 
     @Override public void onCreate(Bundle b){
         super.onCreate(b); setContentView(R.layout.activity_main);
