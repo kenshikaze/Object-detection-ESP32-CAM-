@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
     // are discovered. Change only the endpoint strings once known.
     final String BASE="http://192.168.4.1";
     final String LEFT="/pan?angle=150";
-    String String RIGHT="/pan?angle=30";
+    final String RIGHT="/pan?angle=30";
     final String CENTER="/home";
     final String UP="/tilt?angle=135";
     final String DOWN="/tilt?angle=45";
