@@ -40,8 +40,12 @@ public class MainActivity extends Activity {
         image=findViewById(R.id.image); status=findViewById(R.id.status);
         telemetry=findViewById(R.id.telemetry); streamUrl=findViewById(R.id.streamUrl);
         ObjectDetectorOptions options=new ObjectDetectorOptions.Builder()
-                .setDetectorMode(ObjectDetectorOptions.STREAM_MODE).build();
-        detector=ObjectDetection.getClient(options);
+                .setDetectorMode(ObjectDetectorOptions.STREAM_MODE)
+                        .enableMultipleObjects()
+                                .enableClassification()
+                                        .build();
+
+                                        detector=ObjectDetection.getClient(options);
 
         findViewById(R.id.startBtn).setOnClickListener(v->start());
         findViewById(R.id.stopBtn).setOnClickListener(v->stop());
